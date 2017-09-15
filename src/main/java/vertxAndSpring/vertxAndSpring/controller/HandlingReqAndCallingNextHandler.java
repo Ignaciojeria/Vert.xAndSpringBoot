@@ -1,4 +1,4 @@
-package controller;
+package vertxAndSpring.vertxAndSpring.controller;
 
 import org.springframework.stereotype.Controller;
 

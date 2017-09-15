@@ -4,24 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
-import controller.HandlingReqAndCallingNextHandler;
-import controller.HolaMundoController;
-import controller.SerieController;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
 
 import io.vertx.ext.web.Router;
-
+import vertxAndSpring.vertxAndSpring.controller.HandlingReqAndCallingNextHandler;
+import vertxAndSpring.vertxAndSpring.controller.HolaMundoController;
+import vertxAndSpring.vertxAndSpring.controller.SerieController;
 import vertxAndSpring.vertxAndSpring.service.SerieService;
 
 @Component
 public class StaticServer extends AbstractVerticle {
 
-	//Servicios
-	@Autowired
-	private SerieService serieService;
-
+    //Controladores
+	@Autowired SerieController serieController;
+	@Autowired HolaMundoController holaMundoController;
+	@Autowired HandlingReqAndCallingNextHandler handlingReqAndCallingNextHandler;
+	
 	//Configuración
 	@Autowired
 	AppConfiguration configuration;
@@ -33,11 +34,12 @@ public class StaticServer extends AbstractVerticle {
 		    
 		    Router router= Router.router(vertx);
 		  //  Forma A
-		    new HolaMundoController().holaMundo(router);
+		    holaMundoController.holaMundo(router);
 		    
 		    //Forma B Inicializando los controladores.
-		    new HandlingReqAndCallingNextHandler().cadena(router);
-		    new SerieController(serieService).series(router);
+		    handlingReqAndCallingNextHandler.cadena(router);
+		    serieController.series(router);
+		   // new SerieController(serieService).series(router);
 		    
 		    server.requestHandler(router::accept).listen(configuration.httpPort());
 		 

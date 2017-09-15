@@ -1,8 +1,10 @@
-package controller;
+package vertxAndSpring.vertxAndSpring.controller;
+
+import org.springframework.stereotype.Controller;
 
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
-
+@Controller
 public class HolaMundoController {
 
 	public void holaMundo(Router router){
