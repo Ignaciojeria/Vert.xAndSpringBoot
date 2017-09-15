@@ -8,21 +8,17 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.StaticHandler;
-import io.vertx.rxjava.ext.jdbc.JDBCClient;
-import io.vertx.rxjava.ext.sql.SQLConnection;
 import vertxAndSpring.vertxAndSpring.service.SerieService;
 
 @Component
 public class StaticServer extends AbstractVerticle {
 
 	
-	
+	 private static final Logger LOGGER = LoggerFactory.getLogger(StaticServer.class);
 	
 	
 	@Autowired
@@ -31,24 +27,36 @@ public class StaticServer extends AbstractVerticle {
 	 
 	  public void start(Future<Void> fut) throws Exception {
 		  
-		  Future<Void> future = Future.future();
+		 // Future<Void> future = Future.future();
 		    HttpServer server = vertx.createHttpServer();   // <1>
+		    
+		    server.requestHandler(request -> {
 
-		    Router router = Router.router(vertx);   // <2>
+		    	  // This handler gets called for each request that arrives on the server
+		    	  HttpServerResponse response = request.response();
+		    	  response.putHeader("content-type", "text/plain");
+
+		    	  // Write to the response and end it
+		    	  response.end("Hello World!");
+		    	});
+		    server.listen(configuration.httpPort());
+
+		    /*
+		    Router router = Router.router(vertx);   // <2>		    
 		    router.get("/").handler(this::getSeries);
 		    
 		    server
 		      .requestHandler(router::accept)   // <5>
-		      .listen(8281, ar -> {   // <6>
+		      .listen(configuration.httpPort(), ar -> {   // <6>
 		        if (ar.succeeded()) {
-
+		      LOGGER.info("HTTP server running on port " + configuration.httpPort());
 		          future.complete();
 		        } else {
-
+		        	 LOGGER.error("Could not start a HTTP server", ar.cause());
 		          future.fail(ar.cause());
 		        }
 		      });
-	  
+	  */
 	  }
 	  @Autowired
 	  SerieService serieService;
