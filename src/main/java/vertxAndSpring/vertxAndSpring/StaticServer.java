@@ -30,33 +30,19 @@ public class StaticServer extends AbstractVerticle {
 		 // Future<Void> future = Future.future();
 		    HttpServer server = vertx.createHttpServer();   // <1>
 		    
-		    server.requestHandler(request -> {
-
-		    	  // This handler gets called for each request that arrives on the server
-		    	  HttpServerResponse response = request.response();
-		    	  response.putHeader("content-type", "text/plain");
-
-		    	  // Write to the response and end it
-		    	  response.end("Hello World!");
-		    	});
-		    server.listen(configuration.httpPort());
-
-		    /*
-		    Router router = Router.router(vertx);   // <2>		    
-		    router.get("/").handler(this::getSeries);
+		    Router router= Router.router(vertx);
+		  /*  Forma A
+		    router.route().handler(routingContext->{HttpServerResponse response=routingContext.response();
+		    										response.putHeader("content-type", "text/plain");
+		    										response.end("Hola mundo desde vert.x");});*/
+		    //Forma B
+		    router.route("/hola").handler(this::route1);
+		    router.route("/hola").handler(this::route2);
+		    router.route("/hola").handler(this::route3);
 		    
-		    server
-		      .requestHandler(router::accept)   // <5>
-		      .listen(configuration.httpPort(), ar -> {   // <6>
-		        if (ar.succeeded()) {
-		      LOGGER.info("HTTP server running on port " + configuration.httpPort());
-		          future.complete();
-		        } else {
-		        	 LOGGER.error("Could not start a HTTP server", ar.cause());
-		          future.fail(ar.cause());
-		        }
-		      });
-	  */
+		    server.requestHandler(router::accept).listen(configuration.httpPort());
+		 
+
 	  }
 	  @Autowired
 	  SerieService serieService;
@@ -67,7 +53,29 @@ public class StaticServer extends AbstractVerticle {
 		  
 	  }
 	  
+	  private void route1(RoutingContext routingContext){
+		 // routingContext.response().putHeader("content-type", "text/plain")
+		  routingContext.response().setChunked(true)
+		  .write("/route1\n");
+		 // .end("Hola mundo desde Vertx web");
+		  routingContext.vertx().setTimer(2000,tid->routingContext.next());
+
+	  }
 	  
+	  private void route2(RoutingContext routingContext){
+		 // routingContext.response().putHeader("content-type", "text/plain")
+		  routingContext.response()
+		  .write("/route2\n");
+		 // .end("Hola mundo desde Vertx web");
+		  routingContext.vertx().setTimer(2000,tid->routingContext.next());
+	  }
 	  
+	  private void route3(RoutingContext routingContext){
+		 // routingContext.response().putHeader("content-type", "text/plain")
+		  routingContext.response()
+		  .write("route3");
+		 // .end("Hola mundo desde Vertx web");
+		  routingContext.response().end();
+	  }
 	 
 }
