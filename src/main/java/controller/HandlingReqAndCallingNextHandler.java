@@ -1,18 +1,17 @@
 package controller;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 
 @Controller
-public class HelloWorldController {
-	
-	public void Hello(Router router){
-	    router.route("/hola").handler(this::route1);
-	    router.route("/hola").handler(this::route2);
-	    router.route("/hola").handler(this::route3);
+public class HandlingReqAndCallingNextHandler {
+//Handling requests and calling the next handler
+	public void cadena(Router router){
+	    router.route("/cadena").handler(this::route1);
+	    router.route("/cadena").handler(this::route2);
+	    router.route("/cadena").handler(this::route3);
 	}
 	
 	
