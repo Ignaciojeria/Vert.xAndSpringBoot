@@ -3,6 +3,7 @@ package vertxAndSpring.vertxAndSpring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import controller.HelloWorldController;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
@@ -22,7 +23,7 @@ public class StaticServer extends AbstractVerticle {
 	
 	
 	@Autowired
-	  AppConfiguration configuration;
+	AppConfiguration configuration;
 
 	 
 	  public void start(Future<Void> fut) throws Exception {
@@ -36,13 +37,10 @@ public class StaticServer extends AbstractVerticle {
 		    										response.putHeader("content-type", "text/plain");
 		    										response.end("Hola mundo desde vert.x");});*/
 		    //Forma B
-		    router.route("/hola").handler(this::route1);
-		    router.route("/hola").handler(this::route2);
-		    router.route("/hola").handler(this::route3);
+		    new HelloWorldController().Hello(router);
 		    
 		    server.requestHandler(router::accept).listen(configuration.httpPort());
 		 
-
 	  }
 	  @Autowired
 	  SerieService serieService;
@@ -53,29 +51,6 @@ public class StaticServer extends AbstractVerticle {
 		  
 	  }
 	  
-	  private void route1(RoutingContext routingContext){
-		 // routingContext.response().putHeader("content-type", "text/plain")
-		  routingContext.response().setChunked(true)
-		  .write("/route1\n");
-		 // .end("Hola mundo desde Vertx web");
-		  routingContext.vertx().setTimer(2000,tid->routingContext.next());
 
-	  }
-	  
-	  private void route2(RoutingContext routingContext){
-		 // routingContext.response().putHeader("content-type", "text/plain")
-		  routingContext.response()
-		  .write("/route2\n");
-		 // .end("Hola mundo desde Vertx web");
-		  routingContext.vertx().setTimer(2000,tid->routingContext.next());
-	  }
-	  
-	  private void route3(RoutingContext routingContext){
-		 // routingContext.response().putHeader("content-type", "text/plain")
-		  routingContext.response()
-		  .write("route3");
-		 // .end("Hola mundo desde Vertx web");
-		  routingContext.response().end();
-	  }
 	 
 }
