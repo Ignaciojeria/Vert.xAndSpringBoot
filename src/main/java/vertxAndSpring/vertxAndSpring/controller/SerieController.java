@@ -14,8 +14,20 @@ public class SerieController {
 	@Autowired
 	private SerieService serieService;
 	
-	public void series(Router router){
-		router.route("/series").handler(this::getSeries);
+	public void getSeries(Router router){
+		router.get("/series").handler(this::getSeries);
+	}
+
+	//Capturando los parametros tal cual como vienen en la petición del post.
+	public void saveSeries(Router router) {
+		router.post("/series/:param1/:param2")
+		.handler(routingContext -> {
+			  String param1 = routingContext.request().getParam("param1");
+			  String param2=routingContext.request().getParam("param2");
+			  routingContext.response().putHeader("Content-Type", "application/json")
+			  .end(Json.encodePrettily("parametro1:"+param1+" parametro2:"+param2));
+			  // Do something with them...
+			});
 	}
 	
 	public SerieController(){}

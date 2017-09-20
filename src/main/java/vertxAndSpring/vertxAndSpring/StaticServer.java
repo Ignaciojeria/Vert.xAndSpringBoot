@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
-
 import io.vertx.ext.web.Router;
 import vertxAndSpring.vertxAndSpring.controller.HandlingReqAndCallingNextHandler;
 import vertxAndSpring.vertxAndSpring.controller.HolaMundoController;
@@ -38,7 +36,8 @@ public class StaticServer extends AbstractVerticle {
 		    
 		    //Forma B Inicializando los controladores.
 		    handlingReqAndCallingNextHandler.cadena(router);
-		    serieController.series(router);
+		    serieController.getSeries(router);
+		    serieController.saveSeries(router);
 		   // new SerieController(serieService).series(router);
 		    
 		    server.requestHandler(router::accept).listen(configuration.httpPort());

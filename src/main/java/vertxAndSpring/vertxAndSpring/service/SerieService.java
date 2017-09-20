@@ -21,4 +21,10 @@ public class SerieService  {
 		return serieRepository.findAll();
 	}
 	
+	public void saveSerie(Serie serie) {
+		serieRepository.save(serie);
+	}
+	
+
+	
 }

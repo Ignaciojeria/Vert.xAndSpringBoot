@@ -31,76 +31,42 @@
 		</dependency>
 
 		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-web -->
-<dependency>
-    <groupId>io.vertx</groupId>
-    <artifactId>vertx-web</artifactId>
-    <version>3.4.2</version>
-</dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
+<!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
 <dependency>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-core</artifactId>
-    <version>3.1.0</version>
+    <version>3.5.0.Beta1</version>
 </dependency>
 
 
-    
-		<dependency>
-  <groupId>io.vertx</groupId>
-  <artifactId>vertx-jdbc-client</artifactId>
-  <version>3.4.2</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<!-- https://mvnrepository.com/artifact/io.vertx/vertx-web -->
 <dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>5.1.6</version>
+    <groupId>io.vertx</groupId>
+    <artifactId>vertx-web</artifactId>
+    <version>3.5.0.Beta1</version>
 </dependency>
 
-
+		
 	</dependencies>
-	<build>
-<pluginManagement>
-      <plugins>
-        <!-- We specify the Maven compiler plugin as we need to set it to Java 1.8 -->
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>1.2.4.RELEASE</version>
-      </plugin>
-    </plugins>
-	</build>
 
-  <profiles>
-    <profile>
-      <id>staging</id>
-      <repositories>
-        <repository>
-          <id>staging</id>
-          <url>https://oss.sonatype.org/content/repositories/iovertx-3684/</url>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 
 </project>

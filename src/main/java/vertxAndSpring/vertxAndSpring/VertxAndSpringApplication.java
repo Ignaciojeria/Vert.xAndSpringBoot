@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import io.vertx.core.Vertx;
+import vertxAndSpring.vertxAndSpring.Mock.MockSerie;
 
 
 
@@ -17,6 +18,8 @@ public class VertxAndSpringApplication{
 	
 	  @Autowired
 	  private StaticServer staticServer;
+	  
+	  @Autowired private MockSerie mockSerie;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(VertxAndSpringApplication.class, args);
@@ -25,5 +28,6 @@ public class VertxAndSpringApplication{
 	  @PostConstruct
 	  public void deployVerticle() {
 	    Vertx.vertx().deployVerticle(staticServer);
+	    mockSerie.savemock();
 	  }
 }

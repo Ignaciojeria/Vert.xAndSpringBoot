@@ -1,12 +1,15 @@
 package vertxAndSpring.vertxAndSpring.Mock;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import vertxAndSpring.vertxAndSpring.entity.Serie;
 import vertxAndSpring.vertxAndSpring.repository.SerieRepository;
 
+@Component
 public class MockSerie {
 	
+	@Autowired
 	private SerieRepository serieRepository;
 	
 	public MockSerie (SerieRepository serieRepository){
