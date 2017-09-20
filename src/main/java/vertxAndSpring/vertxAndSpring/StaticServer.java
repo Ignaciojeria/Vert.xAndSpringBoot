@@ -25,6 +25,7 @@ public class StaticServer extends AbstractVerticle {
 	@Autowired
 	AppConfiguration configuration;
 	 
+	@Override
 	  public void start(Future<Void> fut) throws Exception {
 		  
 		 // Future<Void> future = Future.future();
@@ -33,16 +34,15 @@ public class StaticServer extends AbstractVerticle {
 		    Router router= Router.router(vertx);
 		  //  Forma A
 		    holaMundoController.holaMundo(router);
+		    holaMundoController.holaMundoWhitParams(router);
 		    
 		    //Forma B Inicializando los controladores.
 		    handlingReqAndCallingNextHandler.cadena(router);
 		    serieController.getSeries(router);
-		    serieController.saveSeries(router);
+		    serieController.saveSerie(router);
 		   // new SerieController(serieService).series(router);
 		    
 		    server.requestHandler(router::accept).listen(configuration.httpPort());
 		 
-	  }
-	  
-	  
+	  }	  
 }
