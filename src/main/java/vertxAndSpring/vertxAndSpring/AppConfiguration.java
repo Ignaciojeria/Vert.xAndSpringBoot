@@ -13,4 +13,8 @@ public class AppConfiguration {
 	  int httpPort() {
 	    return environment.getProperty("http.port", Integer.class, 8281);
 	  }
+	  
+	  String wikiDBQueue() {
+		return environment.getProperty("wikidb.queque",String.class,"wikidb.queque");
+	  }
 }

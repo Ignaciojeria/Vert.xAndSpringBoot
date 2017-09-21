@@ -12,9 +12,14 @@ import vertxAndSpring.vertxAndSpring.controller.HandlingReqAndCallingNextHandler
 import vertxAndSpring.vertxAndSpring.controller.HolaMundoController;
 import vertxAndSpring.vertxAndSpring.controller.SerieController;
 import vertxAndSpring.vertxAndSpring.service.SerieService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
-public class StaticServer extends AbstractVerticle {
+public class HttpServerVerticle extends AbstractVerticle {
+	
+	//logs
+	private static final Logger LOGGER = LoggerFactory.getLogger(HttpServerVerticle.class);
 
     //Controladores
 	@Autowired SerieController serieController;
@@ -26,9 +31,13 @@ public class StaticServer extends AbstractVerticle {
 	AppConfiguration configuration;
 	 
 	@Override
-	  public void start(Future<Void> fut) throws Exception {
-		  
-		 // Future<Void> future = Future.future();
+	  public void start(Future<Void> startFuture) throws Exception {
+		Future<Void> steps = startHttpServer();
+		steps.setHandler(startFuture.completer());  
+	}
+	
+	private Future<Void> startHttpServer(){
+		 Future<Void> future = Future.future();
 		    HttpServer server = vertx.createHttpServer();   // <1>
 		    
 		    Router router= Router.router(vertx);
@@ -42,7 +51,14 @@ public class StaticServer extends AbstractVerticle {
 		    serieController.saveSerie(router);
 		   // new SerieController(serieService).series(router);
 		    
-		    server.requestHandler(router::accept).listen(configuration.httpPort());
-		 
-	  }	  
+		    server.requestHandler(router::accept).listen(configuration.httpPort(),status->{
+		    	if(status.succeeded()) {
+		    		LOGGER.info("HTTP server running on port " + configuration.httpPort());
+		    	}else {
+		    		  LOGGER.error("Could not start a HTTP server", status.cause());
+		    		  future.fail(status.cause());
+		    	}
+		    });
+		    return future;
+	}
 }
