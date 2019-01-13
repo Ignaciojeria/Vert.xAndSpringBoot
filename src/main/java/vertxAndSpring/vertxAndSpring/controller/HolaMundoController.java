@@ -1,5 +1,6 @@
 package vertxAndSpring.vertxAndSpring.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import io.vertx.ext.web.Router;
 import io.vertx.core.http.HttpServerResponse;
